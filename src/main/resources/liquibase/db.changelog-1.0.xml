@@ -1,0 +1,70 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+        <changeSet id="1.0.0" author="VD">
+            <createTable tableName="users">
+                <column name="id" type="integer" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="password" type="varchar(200)">
+                </column>
+                <column name="username" type="varchar(35)">
+                </column>
+                <column name="firstname" type="varchar(100)"/>
+                <column name="second_name" type="varchar(100)"/>
+                <column name="email" type="varchar(100)"/>
+                <column name="account_balance" type="bigint"/>
+                <column name="reservation" type="boolean"/>
+            </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.1" author="VD">
+        <createTable tableName="room">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(200)">
+            </column>
+            <column name="enable" type="boolean">
+            </column>
+            <column name="price" type="bigint"/>
+            <column name="reservation_on" type="varchar(100)"/>
+            <column name="reservation_off" type="varchar(100)"/>
+        </createTable>
+    </changeSet>
+
+
+<!--    <changeSet id="1.0.2" author="VD">-->
+<!--        <insert tableName="users">-->
+<!--            <column name="id" value="1">-->
+<!--                <constraints nullable="false" primaryKey="true" unique="true"/>-->
+<!--            </column>-->
+<!--            <column name="password" value="test"/>-->
+<!--            <column name="username" value="Ron"/>-->
+<!--            <column name="firstname" value="Ron"/>-->
+<!--            <column name="second_name" value="Smith"/>-->
+<!--            <column name="email" value="test@mail.ru"/>-->
+<!--            <column name="account_balance" value="1000"/>-->
+<!--            <column name="reservation" value="yes">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="1.0.3" author="VD">-->
+<!--        <insert tableName="room">-->
+<!--            <column name="id" type="bigint" value="1">-->
+<!--                <constraints nullable="false" primaryKey="true" unique="true"/>-->
+<!--            </column>-->
+<!--            <column name="name" type="char" value="standard"/>-->
+<!--            <column name="enable" type="boolean" value="yes">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="price" type="bigint" value="50"/>-->
+<!--            <column name="reservation_on" type="date" value="20.02.2020"/>-->
+<!--            <column name="reservation_off" type="date" value="25.01.2020"/>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+</databaseChangeLog>
