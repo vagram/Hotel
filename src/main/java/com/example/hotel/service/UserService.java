@@ -8,12 +8,10 @@ import java.util.Optional;
 public interface UserService {
     List<User> getAllUsers();
     Optional<User> getById(Integer id);
-    void updateUser(User user);
-    User makeReservation(Integer id);
-    User seeReservationByIdReservation(Integer idReservation);
-    User cancelReservationByIdReservation(Integer idReservation);
-    User cancelAllReservations();
-    User userDelete(User id);
+    User updateUser(User user);
+    void userDeleteById(Integer id);
     void deleteAllUsers();
+    User createUser(User user);
+    Optional<User> getUserAccountBalance(User userId);
 
 }

@@ -2,14 +2,18 @@ package com.example.hotel.service;
 
 import com.example.hotel.entity.Room;
 import com.example.hotel.entity.User;
+import liquibase.pro.packaged.I;
 
 import java.util.List;
 
 public interface RoomService {
     List<Room> getAllRooms();
+    Room getRoomById(Integer id);
     Room getRoomByName(String name);
-    Room makeReservation(User user);
-    Room cancelReservation(User user);
-    Room dateReservationOn(User user);
-    Room dateReservationOff(User user);
+    List<Room> getAllEnabled();
+    Room saveOrUpload(Room room);
+    void deleteById(Integer id);
+    void deleteAllRooms();
+
+    //todo create method getEnable room from List of rooms
 }

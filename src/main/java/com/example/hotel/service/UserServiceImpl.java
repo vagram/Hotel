@@ -20,44 +20,40 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User createUser(User user) {
+        //needs to change method when add Roles
+        return userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> getUserAccountBalance(User userId) {
+        Optional<User> user1 = userRepository.findById(userId.getAccountBalance());
+        return user1;
+    }
+
+    @Override
     public Optional<User> getById(Integer id) {
         Optional<User> user = userRepository.findById(id);
         return user;
     }
 
     @Override
-    public void updateUser(User user) {
-        userRepository.save(user);
+    public User updateUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override
-    public User makeReservation(Integer id) {
-
-        return null;
+    public void userDeleteById(Integer id) {
+        //Needs to do soft delete later
+        userRepository.deleteById(id);
     }
 
-    @Override
-    public User seeReservationByIdReservation(Integer idReservation) {
-        return null;
-    }
-
-    @Override
-    public User cancelReservationByIdReservation(Integer idReservation) {
-        return null;
-    }
-
-    @Override
-    public User cancelAllReservations() {
-        return null;
-    }
-
-    @Override
-    public User userDelete(User id) {
-        return null;
-    }
 
     @Override
     public void deleteAllUsers() {
-
+        //Needs to do soft delete later
+        userRepository.deleteAll();
     }
+
+
 }

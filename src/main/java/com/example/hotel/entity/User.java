@@ -23,5 +23,5 @@ public class User {
     private String email;
     @Column(name = "account_balance")
     private Integer accountBalance;
-    private String reservation;
+
 }
