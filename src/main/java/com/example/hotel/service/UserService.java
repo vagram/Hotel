@@ -14,4 +14,5 @@ public interface UserService {
     User createUser(User user);
     Optional<User> getUserAccountBalance(User userId);
 
+    User findByUsername(String username);
 }

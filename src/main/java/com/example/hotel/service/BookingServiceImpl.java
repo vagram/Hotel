@@ -4,13 +4,11 @@ import com.example.hotel.entity.Booking;
 import com.example.hotel.entity.Room;
 import com.example.hotel.entity.User;
 import com.example.hotel.repository.BookingRepository;
-import com.example.hotel.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
-
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,60 +18,64 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private BookingRepository bookingRepository;
     @Autowired
-    private BookingService bookingService;
-    @Autowired
     private RoomService roomService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
+
 
     @Override
 
     public Booking bookingRoom(Booking booking) {
         User user = userService.getById(booking.getUserId()).orElse(null);
         Room room = roomService.getRoomById(booking.getRoomId());
-        List<Booking> bookingList = bookingService.getAllBookingsByRoomId(booking.getRoomId()).stream()
-                .filter(Booking::isActiveBooking).collect(Collectors.toList());
 
-        int numbOfDays = Integer.parseInt(String.valueOf(booking.getCheckOut())) - Integer.parseInt(String.valueOf(booking.getCheckIn()));
+        LocalDate startDate = booking.getCheckIn().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endDate = booking.getCheckOut().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        int numbOfDays = startDate.compareTo(endDate);
         int bookingPrice = room.getPrice() * numbOfDays;
-        if (!booking.isActiveBooking() && booking.getSoftDelBook() == null && booking.getUserId()!= null || bookingList == null) {
-            if (user.getAccountBalance() >= bookingPrice) {
-                for (Booking bookingExist : bookingList) {
-                    if (booking.getCheckIn().before(booking.getCheckOut())) {
-                        if ((booking.getCheckIn().before(bookingExist.getCheckIn())) && (booking.getCheckOut().before(bookingExist.getCheckIn()))) {
-                            int userNewAccountBal = user.getAccountBalance() - bookingPrice;
-                            user.setAccountBalance(userNewAccountBal);
-                            booking.setActiveBooking(booking.isActiveBooking());
-                            return booking;
-                        } else if ((booking.getCheckIn().after(bookingExist.getCheckOut())) && (booking.getCheckOut().before(bookingExist.getCheckIn()))) {
-                            booking.setActiveBooking(booking.isActiveBooking());
-                            return booking;
-                        } else {
-                            throw new RuntimeException("At these dates that room already booked");
-                        }
-                    } else {
-                        throw new RuntimeException("Check In date should be earlier then Check Out date");
-                    }
-                }
-            } else {
-                throw new RuntimeException("Not enough money on the Account Balance");
-            }
+
+
+        if (user.getAccountBalance() < bookingPrice || booking.getSoftDelBook() != null) {
+            throw new RuntimeException("Not enough money or booking active");
+        } else if (bookingValidation(booking)) {
+            user.setAccountBalance(user.getAccountBalance() + bookingPrice);
+            booking.setActiveBooking(false);
+            bookingRepository.save(booking);
+            userService.updateUser(user);
+            return booking;
         } else {
-            throw new RuntimeException("(Booking is not active or deleted) or (this userId doesn't exist");
+            throw new RuntimeException("These dates are not available");
         }
-        return null;
+    }
+    @Override
+    public boolean bookingValidation(Booking booking) {
+        List<Booking> list = bookingRepository.findBookingsByRoomId(booking.getRoomId())
+                .stream()
+                .filter(booking1 -> booking1.isActiveBooking() == false)
+                .filter(booking1 -> booking.getCheckIn().equals(booking1.getCheckIn()) && booking.getCheckOut().equals(booking1.getCheckOut())
+                        || booking.getCheckIn().before(booking1.getCheckIn()) && booking.getCheckOut().after(booking1.getCheckOut())
+                        || booking.getCheckIn().before(booking1.getCheckIn()) && booking.getCheckOut().after(booking1.getCheckIn())
+                        || booking.getCheckIn().before(booking1.getCheckOut()) && booking.getCheckOut().after(booking1.getCheckOut())
+                        || booking.getCheckIn().after(booking1.getCheckIn()) && booking.getCheckOut().before(booking1.getCheckOut())
+                        || booking.getCheckIn().equals(booking1.getCheckOut()) && booking.getCheckOut().after(booking1.getCheckOut())
+                        ||booking.getCheckIn().before(booking1.getCheckIn()) && booking.getCheckOut().equals(booking1.getCheckIn()))
+                .collect(Collectors.toList());
+        if (list.isEmpty()) {
+            return true;
+        } else {
+            throw new RuntimeException("Not available dates");
+        }
     }
 
     @Override
-    public List<Booking> getBookingByUserId(Integer userId) {
+    public List<Booking> findBookingByUserId(Integer userId) {
         List<Booking> bookingList = bookingRepository.findBookingsByUserId(userId);
         return bookingList;
     }
 
     @Override
-    public Booking getBookingById(Integer roomId) {
+    public Booking findBookingByRoomId(Integer roomId) {
         Booking booking = bookingRepository.findBookingByRoomId(roomId);
         return booking;
     }
@@ -81,19 +83,19 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void cancelBooking(Integer id) {
         Booking booking = bookingRepository.findById(id).orElse(null);
-        if (booking != null){
+        if (booking != null) {
             booking.setSoftDelBook(new Date());
             bookingRepository.save(booking);
         }
     }
 
     @Override
-    public List<Booking> findBookingsByActiveBookingTrue() {
-        if (!bookingRepository.findBookingsByActiveBookingTrue().isEmpty()){
-            return bookingRepository.findBookingsByActiveBookingTrue();
+    public List<Booking> findBookingsByActiveBookingFalse() {
+        if (!bookingRepository.findBookingsByActiveBookingFalse().isEmpty()) {
+            return bookingRepository.findBookingsByActiveBookingFalse();
 
         } else {
-            throw new RuntimeException();
+            throw new RuntimeException("No Active Booking(s)");
         }
     }
 
@@ -111,6 +113,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void cancelAllBooking() {
-        bookingRepository.findAll().forEach(e->e.setSoftDelBook(new Date()));
+        bookingRepository.findAll().forEach(e -> e.setSoftDelBook(new Date()));
     }
 }

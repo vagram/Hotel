@@ -17,8 +17,10 @@ import java.util.Date;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer roomId;
     private Integer id;
+    @Column(name = "room_id")
+    private Integer roomId;
+    @Column(name = "user_id")
     private Integer userId;
     @Column(name = "check_in")
     private Date checkIn;

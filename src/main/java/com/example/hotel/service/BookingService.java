@@ -13,10 +13,12 @@ public interface BookingService {
 
     Booking bookingRoom(Booking booking);
 
-    List<Booking> getBookingByUserId(Integer userId);
-    Booking getBookingById(Integer roomId);
+    boolean bookingValidation(Booking booking);
+
+    List<Booking> findBookingByUserId(Integer userId);
+    Booking findBookingByRoomId(Integer roomId);
     void cancelBooking(Integer id);
-    List<Booking> findBookingsByActiveBookingTrue();
+    List<Booking> findBookingsByActiveBookingFalse();
     List<Booking> getAllBooking();
     List<Booking> getAllBookingsByRoomId(Integer roomId);
     void cancelAllBooking();

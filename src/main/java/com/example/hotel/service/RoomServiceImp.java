@@ -6,7 +6,9 @@ import com.example.hotel.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,14 +47,16 @@ public class RoomServiceImp implements RoomService{
 
     @Override
     public void deleteById(Integer id) {
-        //to do later soft delete
-        roomRepository.deleteById(id);
+        Optional<Room> room = roomRepository.findById(id);
+        room.ifPresent(value -> value.setSoftDelRoom(new Date()));
     }
 
     @Override
     public void deleteAllRooms() {
-        //to do later soft delete
-        roomRepository.deleteAll();
+        List<Room> roomList = roomRepository.findAll();
+        if (!roomList.isEmpty()){
+            roomList.forEach(room -> room.setSoftDelRoom(new Date()));
+        }
     }
 
 
