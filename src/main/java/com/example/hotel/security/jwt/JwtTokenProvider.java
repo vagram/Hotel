@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${jwt.token.secret}")
+    @Value("test")
     private String secret;
-    @Value("${jwt.token.expired}")
+    @Value("300000")
     private long validityInMilliseconds;
 
     @Autowired
