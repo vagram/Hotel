@@ -1,17 +1,15 @@
 package com.example.hotel.controller;
 
 import com.example.hotel.entity.User;
+
 import com.example.hotel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @Service
@@ -20,12 +18,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @GetMapping("/users/")
     public List<User> getAllUsers(){
+
         return userService.getAllUsers();
     }
-    @PostMapping("/usercreate/{user}")
-    public User createUser(@PathVariable User user){
+
+    @PostMapping("/user/create/")
+    public User createUser(@RequestBody User user){
+
         return userService.createUser(user);
     }
     @GetMapping("/useraccountbalance/{userId}")

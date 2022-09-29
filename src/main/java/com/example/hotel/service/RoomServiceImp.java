@@ -1,7 +1,6 @@
 package com.example.hotel.service;
 
 import com.example.hotel.entity.Room;
-import com.example.hotel.entity.User;
 import com.example.hotel.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class RoomServiceImp implements RoomService{

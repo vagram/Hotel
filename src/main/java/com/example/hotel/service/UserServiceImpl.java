@@ -4,13 +4,13 @@ import com.example.hotel.entity.User;
 import com.example.hotel.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
+
     @Autowired
     private UserRepository userRepository;
 
@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User createUser(User user) {
-        //needs to change method when add Roles
         return userRepository.save(user);
     }
 

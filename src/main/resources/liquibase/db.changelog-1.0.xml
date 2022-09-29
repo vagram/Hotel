@@ -65,78 +65,80 @@
             <column name="active_booking" type="boolean"/>
         </createTable>
     </changeSet>
-    <changeSet id="1.0.16" author="VD">
-        <createTable tableName="roles">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="status" type="varchar(25)" defaultValue="ACTIVE">
-                <constraints nullable="false"/>
-            </column>
+<!--    <changeSet id="1.0.16" author="VD">-->
+<!--        <createTable tableName="roles">-->
+<!--            <column name="id" type="bigint" autoIncrement="true">-->
+<!--                <constraints primaryKey="true" nullable="false"/>-->
+<!--            </column>-->
+<!--            <column name="status" type="varchar(25)" defaultValue="ACTIVE">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
 
-            <column name="created" type="timestamp" defaultValue="current_timestamp()">
-                <constraints nullable="false"/>
-            </column>
+<!--            <column name="created" type="timestamp" defaultValue="current_timestamp()">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
 
-            <column name="updated" type="timestamp" defaultValue="current_timestamp()">
-                <constraints nullable="false"/>
-            </column>
+<!--            <column name="updated" type="timestamp" defaultValue="current_timestamp()">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
 
-            <column name="name" type="varchar(100)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet id="1.0.17" author="VD">
-        <addColumn tableName="users">
+<!--            <column name="name" type="varchar(100)">-->
+<!--                <constraints nullable="false" unique="true"/>-->
+<!--            </column>-->
+<!--        </createTable>-->
+<!--    </changeSet>-->
+<!--    <changeSet id="1.0.17" author="VD">-->
+<!--        <addColumn tableName="users">-->
 
-            <column name="status" type="varchar(25)" defaultValue="ACTIVE">
-                <constraints nullable="false"/>
-            </column>
+<!--            <column name="status" type="varchar(25)" defaultValue="ACTIVE">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
 
-            <column name="created" type="timestamp" defaultValue="current_timestamp()">
-                <constraints nullable="false"/>
-            </column>
+<!--            <column name="created" type="timestamp" defaultValue="current_timestamp()">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
 
-            <column name="updated" type="timestamp" defaultValue="current_timestamp()">
-                <constraints nullable="false"/>
-            </column>
-        </addColumn>
-    </changeSet>
-
-
-    <changeSet id="1.0.18" author="VD">
-        <createTable tableName="user_roles">
-            <column name="role_id" type="bigint"/>
-            <column name="user_id" type="bigint"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="1.0.19" author="VD">
-        <modifyDataType tableName="user_roles" columnName="user_id" newDataType="integer"/>
-        <modifyDataType tableName="user_roles" columnName="role_id" newDataType="integer"/>
-        <modifyDataType tableName="roles" columnName="id" newDataType="integer"/>
-    </changeSet>
-
-    <changeSet id="1.0.20" author="VD">
-        <addForeignKeyConstraint baseTableName="user_roles"
-                                 baseColumnNames="user_id"
-                                 constraintName="fk_user_roles_user"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"
-                                 referencedTableName="users"
-                                 referencedColumnNames="id"/>
-
-        <addForeignKeyConstraint baseTableName="user_roles"
-                                 baseColumnNames="role_id"
-                                 constraintName="fk_user_roles_role"
-                                 onUpdate="RESTRICT"
-                                 onDelete="CASCADE"
-                                 referencedTableName="roles"
-                                 referencedColumnNames="id"/>
-    </changeSet>
+<!--            <column name="updated" type="timestamp" defaultValue="current_timestamp()">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--        </addColumn>-->
+<!--    </changeSet>-->
 
 
+<!--    <changeSet id="1.0.18" author="VD">-->
+<!--        <createTable tableName="user_roles">-->
+<!--            <column name="role_id" type="bigint"/>-->
+<!--            <column name="user_id" type="bigint"/>-->
+<!--        </createTable>-->
+<!--    </changeSet>-->
 
+<!--    <changeSet id="1.0.19" author="VD">-->
+<!--        <modifyDataType tableName="user_roles" columnName="user_id" newDataType="integer"/>-->
+<!--        <modifyDataType tableName="user_roles" columnName="role_id" newDataType="integer"/>-->
+<!--        <modifyDataType tableName="roles" columnName="id" newDataType="integer"/>-->
+<!--    </changeSet>-->
 
+<!--    <changeSet id="1.0.20" author="VD">-->
+<!--        <addForeignKeyConstraint baseTableName="user_roles"-->
+<!--                                 baseColumnNames="user_id"-->
+<!--                                 constraintName="fk_user_roles_user"-->
+<!--                                 onDelete="CASCADE"-->
+<!--                                 onUpdate="RESTRICT"-->
+<!--                                 referencedTableName="users"-->
+<!--                                 referencedColumnNames="id"/>-->
+
+<!--        <addForeignKeyConstraint baseTableName="user_roles"-->
+<!--                                 baseColumnNames="role_id"-->
+<!--                                 constraintName="fk_user_roles_role"-->
+<!--                                 onUpdate="RESTRICT"-->
+<!--                                 onDelete="CASCADE"-->
+<!--                                 referencedTableName="roles"-->
+<!--                                 referencedColumnNames="id"/>-->
+<!--    </changeSet>-->
+    
+<!--    <changeSet id="1.0.21" author="VD">-->
+<!--        <delete tableName="roles"/>-->
+<!--        <delete tableName="user_roles"/>-->
+<!--    </changeSet>-->
+    
 </databaseChangeLog>

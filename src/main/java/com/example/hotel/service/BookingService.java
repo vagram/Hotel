@@ -1,10 +1,6 @@
 package com.example.hotel.service;
 
 import com.example.hotel.entity.Booking;
-import com.example.hotel.entity.Room;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
